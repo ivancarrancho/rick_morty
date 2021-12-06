@@ -11,8 +11,6 @@ from flask import Response
 from flask import make_response
 from flask import send_file
 
-from format_checker import validate_response
-
 # from exceptions import ConflictExceptions
 #
 #
@@ -44,8 +42,7 @@ def hello(character_id):
         path += f"/{character_id}"
 
     try:
-        response = requests.get(path)
-        json_response = validate_response(response)
+        json_response = requests.get(path)
 
         if json_response.get("error") or response.status_code != 200:
             raise Exception(json_response.get("error"))
