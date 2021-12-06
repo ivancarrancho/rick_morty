@@ -5,6 +5,7 @@ instance/*
 .env
 /bin
 /lib
+.DS_Store
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files
