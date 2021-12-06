@@ -28,8 +28,9 @@ from format_checker import validate_response
 app = Flask(__name__)
 
 
-@app.route("/get_character")
-def hello():
+@app.route("/get_character", defaults={'character_id': None})
+@app.route("/get_character/<int:character_id>")
+def hello(character_id):
     data = request.get_json()
     filter = data.get("filter")
 
@@ -38,6 +39,8 @@ def hello():
         filer_value = filter
 
     path = f"https://rickandmortyapi.com/api/{filer_value}"
+    if character_id or character_id == 0:
+        path += f"/{character_id}"
 
     try:
         json_response = requests.get(path)
