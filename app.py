@@ -11,17 +11,6 @@ from flask import Response
 from flask import make_response
 from flask import send_file
 
-# from exceptions import ConflictExceptions
-#
-#
-# from werkzeug.exceptions import (
-#     BadRequest,
-#     Forbidden,
-#     InternalServerError,
-#     NotFound,
-#     Unauthorized,
-#     Conflict,
-# )
 
 app = Flask(__name__)
 
@@ -48,6 +37,7 @@ def hello(character_id):
             raise Exception(json_response.get("error"))
 
         if is_zip_required:
+
             memory_file = io.BytesIO()
             with zipfile.ZipFile(memory_file, "w") as zf:
                 file_name = f"{filer_value}.json"
