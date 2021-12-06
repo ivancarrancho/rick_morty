@@ -13,6 +13,7 @@ from response_encoder import encode_response, decode_response
 
 
 flask_app = Flask(__name__)
+flask_app.url_map.strict_slashes = False
 app = Api(app=flask_app)
 name_space = app.namespace('swagger', description='Main APIs')
 
@@ -37,8 +38,8 @@ class Decode(Resource):
         return decode_response(response=response, email=email)
 
 
-@name_space.route("/data-api", defaults={'data_id': None, 'data_type': None})
-@name_space.route("/data-api/<string:data_type>", defaults={'data_id': None})
+@name_space.route("/data-api", defaults={'data_id': None, 'data_type': ""})
+@name_space.route("/data-api/<string:data_type>", defaults={'data_id': ""})
 @name_space.route("/data-api/<string:data_type>/<int:data_id>")
 class GetData(Resource):
     def get(self, data_type, data_id):
@@ -52,7 +53,9 @@ class GetData(Resource):
             path = f"https://rickandmortyapi.com/api/{data_type}"
             if data_id or data_id == 0:
                 path += f"/{data_id}"
-
+            print("**************")
+            print(path)
+            print("**************")
             response = requests.get(path)
 
             final_response = validate_response(response)
