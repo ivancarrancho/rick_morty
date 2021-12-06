@@ -33,6 +33,7 @@ app = Flask(__name__)
 def hello(character_id):
     data = request.get_json()
     filter = data.get("filter")
+    is_zip_required = data.get("zip_required", False)
 
     filer_value = ""
     if filter:
@@ -43,10 +44,23 @@ def hello(character_id):
         path += f"/{character_id}"
 
     try:
-        json_response = requests.get(path)
+        response = requests.get(path)
+        json_response = validate_response(response)
 
         if json_response.get("error") or response.status_code != 200:
             raise Exception(json_response.get("error"))
+
+        if is_zip_required:
+            memory_file = io.BytesIO()
+            with zipfile.ZipFile(memory_file, "w") as zf:
+                file_name = f"{filer_value}.json"
+                data = zipfile.ZipInfo(file_name)
+                data.date_time = time.localtime(time.time())[:6]
+                data.compress_type = zipfile.ZIP_DEFLATED
+                zf.writestr(data, response.content)
+
+            memory_file.seek(0)
+            return send_file(memory_file, attachment_filename=f"{filer_value}.zip", as_attachment=True)
 
         return json_response
 
