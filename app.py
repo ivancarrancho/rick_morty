@@ -13,17 +13,6 @@ from flask import send_file
 
 from format_checker import validate_response
 
-# from exceptions import ConflictExceptions
-#
-#
-# from werkzeug.exceptions import (
-#     BadRequest,
-#     Forbidden,
-#     InternalServerError,
-#     NotFound,
-#     Unauthorized,
-#     Conflict,
-# )
 
 app = Flask(__name__)
 
