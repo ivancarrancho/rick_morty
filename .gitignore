@@ -5,6 +5,7 @@ instance/*
 .env
 /bin
 /lib
+/.idea
 .DS_Store
 .idea
 
