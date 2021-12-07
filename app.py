@@ -32,8 +32,8 @@ class MainClass(Resource):
 
 @name_space.route("/decode")
 class Decode(Resource):
-    model = app.model(
-        'Data Model', {
+    decode_model = app.model(
+        'Decode Model', {
             'email': fields.String(
                 required=False,
                 description="Email which was used in the encryption",
@@ -47,7 +47,7 @@ class Decode(Resource):
         }
     )
 
-    @app.expect(model)
+    @app.expect(decode_model)
     def get(self):
         data = request.get_json() or {}
         response = data.get("response", "")
